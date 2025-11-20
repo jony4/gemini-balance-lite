@@ -1,6 +1,12 @@
 import { handleVerification } from './verify_keys.js';
 import openai from './openai.mjs';
 
+// Cloudflare Workers 超时配置
+// 免费版：10ms CPU 时间
+// 付费版：30 秒 CPU 时间（Unbound Workers 可达 15 分钟）
+// 注意：网络 I/O 时间不计入 CPU 时间限制
+const FETCH_TIMEOUT_MS = 5 * 60 * 1000; // 5 分钟超时（可选，用于极端情况）
+
 export async function handleRequest(request) {
 
   const url = new URL(request.url);
@@ -88,11 +94,32 @@ export async function handleRequest(request) {
     console.log('targetUrl:'+targetUrl)
     console.log(headers)
 
-    const response = await fetch(targetUrl, {
-      method: request.method,
-      headers: headers,
-      body: request.body
-    });
+    // 对于大模型请求，使用 AbortController 设置超时（可选）
+    // 注意：Cloudflare Workers 的网络 I/O 时间不计入 CPU 时间限制
+    // 但为了避免无限等待，可以设置一个较长的超时时间
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    
+    let response;
+    try {
+      response = await fetch(targetUrl, {
+        method: request.method,
+        headers: headers,
+        body: request.body,
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        console.error('Request timeout after', FETCH_TIMEOUT_MS, 'ms');
+        return new Response('Gateway Timeout: Request to Gemini API exceeded time limit', {
+          status: 504,
+          headers: { 'Content-Type': 'text/plain' }
+        });
+      }
+      throw error;
+    }
 
     console.log("Call Gemini Success")
 
