@@ -114,7 +114,16 @@ Youtube: [https://www.youtube.com/@Tech_Shrimp](https://www.youtube.com/@Tech_Sh
 
 ### Gemini 代理
 
-可以使用 Gemini 的原生 API 格式进行代理请求。
+可以使用 Gemini 的原生 API 格式进行代理请求，包括文件上传 API。
+
+#### 文件上传支持
+
+本代理支持 Gemini Files API，可以上传视频、音频、图片等文件。支持的端点包括：
+- `POST /upload/v1beta/files` - 上传文件（支持 resumable upload）
+- `GET /v1beta/files/{name}` - 获取文件元数据
+- `DELETE /v1beta/files/{name}` - 删除文件
+- `GET /v1beta/files` - 列出文件
+
 **Curl 示例:**
 ```bash
 curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-2.5-pro:generateContent' \
