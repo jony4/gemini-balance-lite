@@ -7,6 +7,6 @@ compatibility_flags = ["nodejs_compat"]
 # 限制和超时配置
 # 注意：免费版 Workers 有 10ms CPU 时间限制，付费版有 30 秒限制
 # 对于长时间运行的 AI 请求，建议使用流式响应
-[limits]
+# [limits]
 # CPU 时间限制（毫秒）- 仅在付费计划中可配置
 # cpu_ms = 30000
