@@ -1,5 +1,5 @@
 async function verifyKey(key, controller) {
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro:generateContent';
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-preview:generateContent';
   const body = {
     "contents": [{
       "role": "user",
