@@ -126,7 +126,7 @@ Youtube: [https://www.youtube.com/@Tech_Shrimp](https://www.youtube.com/@Tech_Sh
 
 **Curl 示例:**
 ```bash
-curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-2.5-pro:generateContent' \
+curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-3-pro-preview:generateContent' \
 --header 'Content-Type: application/json' \
 --header 'x-goog-api-key: <YOUR_GEMINI_API_KEY_1>,<YOUR_GEMINI_API_KEY_2>' \
 --data '{
@@ -144,7 +144,7 @@ curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-2.5
 ```
 **Curl 示例:（流式）**
 ```bash
-curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-2.5-pro:generateContent?alt=sse' \
+curl -X POST --location 'https://<YOUR_DEPLOYED_DOMAIN>/v1beta/models/gemini-3-pro-preview:generateContent?alt=sse' \
 --header 'Content-Type: application/json' \
 --header 'x-goog-api-key: <YOUR_GEMINI_API_KEY_1>,<YOUR_GEMINI_API_KEY_2>' \
 --data '{
