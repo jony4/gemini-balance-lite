@@ -121,7 +121,13 @@ export async function handleRequest(request) {
       throw error;
     }
 
-    console.log("Call Gemini Success")
+    console.log("Call Gemini Success, Status:", response.status);
+    console.log("Response Content-Type:", response.headers.get('content-type'));
+    
+    // 检查是否是流式响应
+    const isStreaming = response.headers.get('content-type')?.includes('text/event-stream') ||
+                        response.headers.get('transfer-encoding') === 'chunked';
+    console.log("Is Streaming Response:", isStreaming);
 
     const responseHeaders = new Headers();
 
